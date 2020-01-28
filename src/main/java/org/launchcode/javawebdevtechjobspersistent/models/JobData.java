@@ -2,7 +2,6 @@ package org.launchcode.javawebdevtechjobspersistent.models;
 
 import java.util.ArrayList;
 
-// This is a change made in sandbox.
 
 /**
  * Created by LaunchCode
@@ -32,16 +31,26 @@ public class JobData {
         if (column.equals("all")){
             results = findByValue(value, allJobs);
             return results;
-        }
-        for (Job job : allJobs) {
+        } else if (column.equals("skill")){
+            for (Job job : allJobs){
+                for (Skill skill : job.getSkills()){
+                    if(skill.getName().toLowerCase().contains(value.toLowerCase())){
+                        results.add(job);
+                        break;
+                    }
+                }
+            }
+            return results;
+        } else {
+            for (Job job : allJobs) {
 
-            String aValue = getFieldValue(job, column);
+                String aValue = getFieldValue(job, column);
 
-            if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
-                results.add(job);
+                if (aValue != null && aValue.toLowerCase().contains(value.toLowerCase())) {
+                    results.add(job);
+                }
             }
         }
-
         return results;
     }
 
@@ -74,9 +83,9 @@ public class JobData {
 
             if (job.getName().toLowerCase().contains(value.toLowerCase())) {
                 results.add(job);
-            } else if (job.getEmployer().toLowerCase().contains(value.toLowerCase())) {
+            } else if (job.getEmployer().toString().contains(value.toLowerCase())) {
                 results.add(job);
-            } else if (job.getSkills().contains(value.toLowerCase())) {
+            } else if (job.getSkills().toString().contains(value.toLowerCase())) {
                 results.add(job);
             } else if (job.toString().toLowerCase().contains(value.toLowerCase())) {
                 results.add(job);
@@ -89,4 +98,3 @@ public class JobData {
 
 
 }
-
