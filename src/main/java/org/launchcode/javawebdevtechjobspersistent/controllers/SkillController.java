@@ -52,6 +52,7 @@ public class SkillController {
             model.addAttribute("skills", skill);
             return "skills/view";
         } else {
+            model.addAttribute("skill", skillRepository.findAll());
             return "redirect:../";
         }
     }
